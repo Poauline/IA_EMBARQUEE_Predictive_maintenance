@@ -1,0 +1,13 @@
+../X-CUBE-AI/App/predictive_maintenance.c:362:9:predictive_maintenance_configure_activations	2
+../X-CUBE-AI/App/predictive_maintenance.c:395:9:predictive_maintenance_configure_weights	2
+../X-CUBE-AI/App/predictive_maintenance.c:434:9:ai_predictive_maintenance_get_info	4
+../X-CUBE-AI/App/predictive_maintenance.c:481:9:ai_predictive_maintenance_get_report	4
+../X-CUBE-AI/App/predictive_maintenance.c:528:10:ai_predictive_maintenance_get_error	1
+../X-CUBE-AI/App/predictive_maintenance.c:535:10:ai_predictive_maintenance_create	1
+../X-CUBE-AI/App/predictive_maintenance.c:546:10:ai_predictive_maintenance_create_and_init	8
+../X-CUBE-AI/App/predictive_maintenance.c:581:12:ai_predictive_maintenance_inputs_get	2
+../X-CUBE-AI/App/predictive_maintenance.c:592:12:ai_predictive_maintenance_outputs_get	2
+../X-CUBE-AI/App/predictive_maintenance.c:603:11:ai_predictive_maintenance_destroy	1
+../X-CUBE-AI/App/predictive_maintenance.c:610:9:ai_predictive_maintenance_init	2
+../X-CUBE-AI/App/predictive_maintenance.c:627:8:ai_predictive_maintenance_run	1
+../X-CUBE-AI/App/predictive_maintenance.c:635:8:ai_predictive_maintenance_forward	1
