@@ -5,4 +5,4 @@
 ../X-CUBE-AI/App/app_x-cube-ai.c:238:5:post_process	72	static
 ../X-CUBE-AI/App/app_x-cube-ai.c:294:6:synchronize_UART	16	static
 ../X-CUBE-AI/App/app_x-cube-ai.c:330:6:MX_X_CUBE_AI_Init	8	static
-../X-CUBE-AI/App/app_x-cube-ai.c:339:6:MX_X_CUBE_AI_Process	56	static
+../X-CUBE-AI/App/app_x-cube-ai.c:339:6:MX_X_CUBE_AI_Process	24	static

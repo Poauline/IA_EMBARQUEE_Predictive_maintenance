@@ -350,8 +350,8 @@ void MX_X_CUBE_AI_Process(void)
       res = acquire_and_process_data(in_data);
       //float default_values[5] = {298.45421655, 308.70043998, 2679.36885837, 10.65600098, 84.97335622};// Y = 3 from index 5
       //float default_values[5] = {302.48711493, 311.36830076, 1626.36601512, 33.3840344, 229.31699244};// Y = 1 from index 8
-      float default_values[5] = {300.43377048,  310.41191899, 1352.47020251,   56.86952747,  209.45033752};// Y = 4 from index 7
-      memcpy(in_data, default_values, BYTES_IN_FLOATS);
+      //float default_values[5] = {300.43377048,  310.41191899, 1352.47020251,   56.86952747,  209.45033752};// Y = 4 from index 7
+      //memcpy(in_data, default_values, BYTES_IN_FLOATS);
       /* 2 - process the data - call inference engine */
       if (res == 0)
         res = ai_run();
