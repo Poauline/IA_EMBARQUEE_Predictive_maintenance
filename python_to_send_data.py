@@ -98,6 +98,8 @@ if __name__ == '__main__':
     X_test = np.load("./saved_data/X_test.npy")
     Y_test = np.load("./saved_data/Y_test.npy")
     print(X_test[7])
+    print(X_test.shape)
+    print(Y_test.shape)
     print(Y_test[7])
 
     with serial.Serial(PORT, 115200, timeout=1) as ser:
@@ -106,4 +108,4 @@ if __name__ == '__main__':
         print("Synchronised")
 
         print("Evaluating model on STM32...")
-        error = evaluate_model_on_STM32(100, ser)
+        error = evaluate_model_on_STM32(9670, ser)
