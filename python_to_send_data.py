@@ -43,25 +43,6 @@ def send_inputs_to_STM32(inputs, serial_port):
     print(buffer)
 
 
-'''def read_output_from_STM32(serial_port):
-    """
-    Reads 10 bytes from the given serial port and returns a list of float values obtained by dividing each byte by 255.
-
-    Args:
-    serial_port: A serial port object.
-
-    Returns:
-    A list of float values obtained by dividing each byte by 255.
-    """
-    output = serial_port.read(10)#Taille d'un flottant, à changer si on change la donnée reçue
-
-    # Conversion des octets en valeurs flottantes (diviser chaque octet par 255)
-    float_values = [int(out)/255 for out in output]
-    #print(float_values)
-    return float_values
-'''
-import struct
-
 def read_output_from_STM32(serial_port):
     """
     Reads 4 bytes from the given serial port and reconstructs a float value.
@@ -76,7 +57,8 @@ def read_output_from_STM32(serial_port):
 
     if len(output) != 1:
         print(len(output))
-        raise ValueError("Erreur de réception : 1 octets attendus")
+        raise ValueError("Erreur de réception : 1 octet attendus")
+    
     #print("Vrai output :", output)
     #print("Octets reçus (hex) :", output.hex())  # Affiche en hexadécimal
 
@@ -102,8 +84,6 @@ def evaluate_model_on_STM32(iterations, serial_port):
         print(X_test[i])
         send_inputs_to_STM32(X_test[i], serial_port)
         output = read_output_from_STM32(serial_port)
-        #print(output)
-        
         if (output == Y_test[i]):
             accuracy += 1 / iterations
             print("   Dans le mille !")
