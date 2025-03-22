@@ -119,8 +119,8 @@ int main(void)
   //MX_USB_OTG_FS_PCD_Init();
   MX_X_CUBE_AI_Init();
   /* USER CODE BEGIN 2 */
-	  //Conseil de Potin : commenter MX_SDMMC1_SD_Init et MX_USB_OTG_FS_PCD_Init car sinon il tourne dans le vide
-	  //A refaire dès qu'on regènere le code TODO
+  // Tip from Olivier Potin: comment out MX_SDMMC1_SD_Init and MX_USB_OTG_FS_PCD_Init because otherwise it runs in a vacuum.
+  //Do it again as soon as you regenerate the code   TODO (to remember)
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -129,7 +129,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-  MX_X_CUBE_AI_Process();
+  MX_X_CUBE_AI_Process();//The model turn thanks to this line
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

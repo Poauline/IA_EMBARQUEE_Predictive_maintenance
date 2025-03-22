@@ -60,15 +60,17 @@
 /* USER CODE BEGIN includes */
  extern UART_HandleTypeDef huart2;
 
- #define BYTES_IN_FLOATS 5*4
+ #define BYTES_IN_FLOATS 5*4//Each float is 4 bytes long, so we want to receive 5 floats
 
  #define TIMEOUT 1000
 
- #define SYNCHRONISATION 0xAB
+ #define SYNCHRONISATION 0xAB //value received for synchro
 
- #define ACKNOWLEDGE 0xCD
+ #define ACKNOWLEDGE 0xCD //response given for synchro
 
- #define CLASS_NUMBER 5
+ #define CLASS_NUMBER 5 //number of classes at model output
+
+#define DEFAULT_LABEL 10 //Default value for the output, if do not chang there has been a problem
 
   void synchronize_UART(void);
 /* USER CODE END includes */
@@ -183,18 +185,26 @@ static int ai_run(void)
 
 /* USER CODE BEGIN 2 */
 
-int acquire_and_process_data(ai_i8 *data[])//peut être essayer avec ai_i32
+/*
+ * Function for receiving data and formatting it to send to the model.
+ * Floats (32 bits) are received via the UART connection in the form of uint8_t,
+ * then reconstruct them as floats and place them in the 'data' array.
+ */
+int acquire_and_process_data(ai_i8 *data[])// This function takes as input an array of pointers of type ai_i8 which correspond to uint8_t
 {
     //
     // 1. Variables for data acquisition
     //
-    unsigned char tmp[BYTES_IN_FLOATS] = {0};
-    int num_elements = sizeof(tmp) / sizeof(tmp[0]);//A verifier qu'on ait bien 20
-    int num_floats = num_elements / 4;
+    unsigned char tmp[BYTES_IN_FLOATS] = {0};// Temporary array for storing received bytess
+    int num_elements = sizeof(tmp) / sizeof(tmp[0]);// We need to receive 20 bytes (4*5 floats of 4 bytes each because they are 32-bit)
+    int num_floats = num_elements / 4; // The number of floats to be recovered
     //
     // 2. Receive data from UART
     //
     HAL_StatusTypeDef status = HAL_UART_Receive(&huart2, (uint8_t *)tmp, sizeof(tmp), HAL_MAX_DELAY);
+    // Retrieves the data available on the UART
+    // The result is stored in the 'tmp' array We block until we receive (or exceed) the Timeout duration
+
     // Check the return status of HAL_UART_Receive
     if (status != HAL_OK)
     {
@@ -204,37 +214,56 @@ int acquire_and_process_data(ai_i8 *data[])//peut être essayer avec ai_i32
     //
     // 3. Reconstruct floats from bytes
     //
-    float value;
-    if (num_elements % 4 != 0)
-    {
-      printf("The array length is not a multiple of 4 bytes. Cannot reconstruct floats.\n");
-      return (1);
-    }
+    float value;  // Variable to store the reconstructed floats
+	if (num_elements % 4 != 0)  // If the number of bytes is not a multiple of 4, the reconstruction cannot be done
+	{
+	  printf("The array length is not a multiple of 4 bytes. Cannot reconstruct floats.\n");
+	  return (1);  // error
+	}
+	//We reconstruct the float in order to put them in the array
     for (size_t i = 0; i < num_floats; i++)
     {
       unsigned char bytes[4] = {0};
+      // Reconstruct the 4 bytes of a float from the 'tmp' array
       // Reconstruction of the bytes
       for (size_t j = 0; j < 4; j++)
       {
+    	  // Each group of 4 bytes is copied into 'bytes'
         bytes[j] = tmp[i * 4 + j];
       }
-
-
 
       // Store the bytes in 'data'
       for (size_t k = 0; k < 4; k++)
 		{
-		  ((uint8_t *)data)[(i * 4 + k)] = bytes[k];
+		  ((uint8_t *)data)[(i * 4 + k)] = bytes[k];// Each byte is transferred to its position
 
 		}
-
-	   //value = *((float*)(data + i * 4));  // Cast des 4 octets en float
 	  }
 
 
     return (0);
 }
 
+/*
+ * Post-processing function for the output data.
+ *
+ * The goal is to send the index from the class with the highest probability. On MNIST we were sending an array with the belonging of the data
+ * to a class but we prefer send one int with the index (from 0 to 4)
+ *
+ * It identifies the class with the highest probability, and then transmits the class label over UART.
+ *
+ * The output data are 32-bit floating-point values representing the probability of each class
+ * for each class.
+ * The class with the highest probability is identified. The function then transmits the label of this class as a
+ * uint8_t value over UART.
+ *
+ * Steps:
+ * 1. Retrieve the output data and check for validity.
+ * 2. Convert the byte data into floating-point values.
+ * 3. Determine the class with the highest probability.
+ * 4. Transmit the class label over UART.
+ *
+ */
 int post_process(ai_i8 *data[])
 {
     //
@@ -246,11 +275,12 @@ int post_process(ai_i8 *data[])
       return (1);
     }
 
-    uint8_t unique_label = 5;
+    uint8_t unique_label = 0;  // default value of label, was -1 but is now 0 because we are with unsigned values
+    //We start at index 0 for the evaluation of the maximum probability
     uint8_t *output = data;
     // An array to store the float outputs
     float outs[CLASS_NUMBER] = {0.0};
-    uint8_t outs_uint8[CLASS_NUMBER] = {0};
+    uint8_t outs_uint8[CLASS_NUMBER] = {0};  // Array to store the uint8_t version of the outputs
     /* Convert the probability to float */
     for (size_t i = 0; i < CLASS_NUMBER; i++)
     {
@@ -260,68 +290,78 @@ int post_process(ai_i8 *data[])
       {
         temp[j] = output[i * 4 + j];
       }
-      // Reconstruct the float from the bytes
-      outs[i] = *(float *)&temp;
+      // Reconstruct the float
+      outs[i] = *(float *)&temp;  // Cast the 4 bytes
 
       //
-	  // Transform the multi class data in one output
-	  //
-      if(outs[i] > outs[unique_label])
-          		unique_label = i;
+      // Transform the multi class data into one output
+      //
 
-      // Convert the float to uint8_t for UART transmission
-      //outs_uint8[i] = (char)(outs[i] * 255);
+      //We take benefit from the existing loop in order to transform the multi class result in one output.
+      //Therefore, we have for instance an array with [0.05, 0.56, 0.21, 0.88, 0.11]
+      //During the loop we will select the index from the highest probability
+      //
+      if(outs[i] > outs[unique_label])
+        unique_label = i;  // If the probability of the current class is higher, update the unique label
+
     }
 
     //
-	// Transmit the output data
-	//
-    float to_transmit = *((float*)(data + 0 * 4));//unique_label;
-    //uint8_t byte_array[4];
-
-    // Copier les 4 octets du float dans le tableau byte_array
-    //memcpy(byte_array, &to_transmit, sizeof(to_transmit));
-	HAL_StatusTypeDef status = HAL_UART_Transmit(&huart2, &unique_label, sizeof(unique_label), TIMEOUT);
-	// Check the return status of HAL_UART_Transmit
-	if (status != HAL_OK)
-	{
-		printf("Failed to transmit data to UART. Error code: %d\n", status);
-		return (1);
-	}
-	return 0;
+    // Transmit the output data
+    //
+    // We transmit an uint8_t on one byte
+    HAL_StatusTypeDef status = HAL_UART_Transmit(&huart2, &unique_label, 1, TIMEOUT);//We fix the length of the transmission to one byte
+    // Check the return status of HAL_UART_Transmit
+    if (status != HAL_OK)
+    {
+        printf("Failed to transmit data to UART. Error code: %d\n", status);  // Error message if transmission fails
+        return (1);  // Return 1 to indicate an error
+    }
+    return 0;  // success
 }
+
+/*
+ * Function to synchronize UART communication.
+ *
+ * Waits for a synchronization signal from the sender over UART. It listens for a specific
+ * byte (SYNCHRONISATION) from the receiver. Then, it acknowledges by sending a response
+ * (ACKNOWLEDGE byte) back to the sender. The communication is considered synchronized once the acknowledgment
+ * is sent.
+ *
+ * Function steps:
+ * 1. Waits for the SYNCHRONISATION byte to be received via UART.
+ * 2. Upon receiving SYNCHRONISATION, it sends an ACKNOWLEDGE byte back to the sender.
+ * 3. Loops until synchronization is confirmed by the response.
+ */
 
 void synchronize_UART(void)
-
 {
-
+    // Variable to track synchronization status (not synchronized initially)
     bool is_synced = 0;
 
-    unsigned char rx[2] = {0};
+    unsigned char rx[2] = {0};  // Buffer to store received data
+    unsigned char tx[2] = {ACKNOWLEDGE, 0};  // Buffer for acknowledgment message
 
-    unsigned char tx[2] = {ACKNOWLEDGE, 0};
-
+    // We wait until synchronization is confirmed
     while (!is_synced)
-
     {
+        // Receive data over UART
+        HAL_UART_Receive(&huart2, (uint8_t *)rx, sizeof(rx), TIMEOUT);
 
-      HAL_UART_Receive(&huart2, (uint8_t *)rx, sizeof(rx), TIMEOUT);
+        // Check if the received byte is the SYNCHRONISATION signal
+        if (rx[0] == SYNCHRONISATION)
+        {
+            // Send an ACKNOWLEDGE byte back to the sender to confirm synchronization
+            HAL_UART_Transmit(&huart2, (uint8_t *)tx, sizeof(tx), TIMEOUT);
 
-      if (rx[0] == SYNCHRONISATION)
-
-      {
-
-        HAL_UART_Transmit(&huart2, (uint8_t *)tx, sizeof(tx), TIMEOUT);
-
-        is_synced = 1;
-
-      }
-
+            // Mark synchronization as complete
+            is_synced = 1;
+        }
     }
 
-    return;
-
+    return;  // Exit once synchronization is successful
 }
+
 
 /* USER CODE END 2 */
 
@@ -340,28 +380,31 @@ void MX_X_CUBE_AI_Process(void)
 {
     /* USER CODE BEGIN 6 */
   int res = -1;
-  uint8_t *in_data = ai_input[0].data;
+  uint8_t *in_data = ai_input[0].data;//in_data is the input from the model
   uint8_t *out_data = ai_output[0].data;
-  synchronize_UART();
+  synchronize_UART();//We synchronize the transmission
 
   if (predictive_maintenance) {
     do {
       /* 1 - acquire and pre-process input data */
-      res = acquire_and_process_data(in_data);
+      res = acquire_and_process_data(in_data);//We recuerate the values from UART and format them to put it into in_data
+      //which is the input from the model
+      //This function is blocking (while there are no data on UART)
+
+      //We can use default values by commenting-out lines below, it will overwrite in_data
+
       //float default_values[5] = {298.45421655, 308.70043998, 2679.36885837, 10.65600098, 84.97335622};// Y = 3 from index 5
       //float default_values[5] = {302.48711493, 311.36830076, 1626.36601512, 33.3840344, 229.31699244};// Y = 1 from index 8
       //float default_values[5] = {300.43377048,  310.41191899, 1352.47020251,   56.86952747,  209.45033752};// Y = 4 from index 7
       //memcpy(in_data, default_values, BYTES_IN_FLOATS);
+
       /* 2 - process the data - call inference engine */
       if (res == 0)
         res = ai_run();
       /* 3- post-process the predictions */
       if (res == 0)
       {
-        res = post_process(out_data);
-    	  //HAL_StatusTypeDef status = HAL_UART_Transmit(&huart2, (uint8_t *)in_data, 4, TIMEOUT);
-    	  //float my_value = 298.45421655;
-    	  //HAL_UART_Transmit(&huart2, (uint8_t*)&my_value, sizeof(my_value), HAL_MAX_DELAY);
+        res = post_process(out_data);//We determine the chosen class and send the result via UART
       }
     } while (res==0);
   }
