@@ -9194,7 +9194,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x00000ec3       0x25 ./X-CUBE-AI/App/predictive_maintenance_data.o
 
-.debug_macro    0x00000000    0x35785
+.debug_macro    0x00000000    0x3578b
  .debug_macro   0x00000000      0x2f5 ./Core/Src/main.o
  .debug_macro   0x000002f5      0xab4 ./Core/Src/main.o
  .debug_macro   0x00000da9      0x1c5 ./Core/Src/main.o
@@ -9287,60 +9287,60 @@ LOAD C:/ST/STM32CubeIDE_1.13.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x00032bc6      0x28e ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.o
  .debug_macro   0x00032e54      0x26f ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.o
  .debug_macro   0x000330c3      0x281 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_fmc.o
- .debug_macro   0x00033344      0x44e ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033792       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x000337a8      0x11c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x000338c4       0x94 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033958      0x369 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033cc1       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033cd7       0x29 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033d00       0x1c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033d1c       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033d2c       0x1c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033d48       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033d5e      0x146 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033ea4       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033eb4       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033eca       0x20 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033eea       0x4c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033f36       0x56 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033f8c       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00033f9c       0xc0 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x0003405c       0x7c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x000340d8       0x88 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x00034160       0x4c ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x000341ac       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
- .debug_macro   0x000341bc      0x4b0 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003466c       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003468e       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000346a4       0x10 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000346b4       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000346d6      0x229 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000348ff       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003492d       0xcf ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000349fc      0x1ed ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00034be9      0x19b ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00034d84       0x7c ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00034e00       0x17 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00034e17      0x118 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00034f2f      0x202 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035131       0x3a ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003516b       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035199       0xdc ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035275       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003528b       0x4d ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000352d8       0x25 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000352fd       0x12 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x0003530f       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035325       0x7c ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000353a1       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000353c3       0x10 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000353d3       0x11 ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x000353e4       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035412       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
- .debug_macro   0x00035440      0x20f ./X-CUBE-AI/App/predictive_maintenance_data.o
- .debug_macro   0x0003564f       0x46 ./X-CUBE-AI/App/predictive_maintenance_data.o
- .debug_macro   0x00035695       0xf0 ./X-CUBE-AI/App/predictive_maintenance_data_params.o
+ .debug_macro   0x00033344      0x454 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033798       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x000337ae      0x11c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x000338ca       0x94 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x0003395e      0x369 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033cc7       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033cdd       0x29 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033d06       0x1c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033d22       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033d32       0x1c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033d4e       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033d64      0x146 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033eaa       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033eba       0x16 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033ed0       0x20 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033ef0       0x4c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033f3c       0x56 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033f92       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00033fa2       0xc0 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00034062       0x7c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x000340de       0x88 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x00034166       0x4c ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x000341b2       0x10 ./X-CUBE-AI/App/app_x-cube-ai.o
+ .debug_macro   0x000341c2      0x4b0 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034672       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034694       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000346aa       0x10 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000346ba       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000346dc      0x229 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034905       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034933       0xcf ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034a02      0x1ed ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034bef      0x19b ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034d8a       0x7c ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034e06       0x17 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034e1d      0x118 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00034f35      0x202 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035137       0x3a ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035171       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x0003519f       0xdc ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x0003527b       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035291       0x4d ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000352de       0x25 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035303       0x12 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035315       0x16 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x0003532b       0x7c ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000353a7       0x22 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000353c9       0x10 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000353d9       0x11 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x000353ea       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035418       0x2e ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_macro   0x00035446      0x20f ./X-CUBE-AI/App/predictive_maintenance_data.o
+ .debug_macro   0x00035655       0x46 ./X-CUBE-AI/App/predictive_maintenance_data.o
+ .debug_macro   0x0003569b       0xf0 ./X-CUBE-AI/App/predictive_maintenance_data_params.o
 
 .debug_line     0x00000000    0x1ab5a
  .debug_line    0x00000000      0xe78 ./Core/Src/main.o
@@ -9368,7 +9368,7 @@ LOAD C:/ST/STM32CubeIDE_1.13.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x00019e80      0x754 ./X-CUBE-AI/App/predictive_maintenance_data.o
  .debug_line    0x0001a5d4      0x586 ./X-CUBE-AI/App/predictive_maintenance_data_params.o
 
-.debug_str      0x00000000   0x13cd11
+.debug_str      0x00000000   0x13cd22
  .debug_str     0x00000000   0x12a0b3 ./Core/Src/main.o
                              0x12a68e (size before relaxing)
  .debug_str     0x0012a0b3      0x469 ./Core/Src/stm32l4xx_hal_msp.o
@@ -9409,13 +9409,13 @@ LOAD C:/ST/STM32CubeIDE_1.13.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                              0x1247c5 (size before relaxing)
  .debug_str     0x00130992      0x451 ./Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_fmc.o
                              0x1244e5 (size before relaxing)
- .debug_str     0x00130de3     0x3271 ./X-CUBE-AI/App/app_x-cube-ai.o
-                             0x12dd32 (size before relaxing)
- .debug_str     0x00134054     0x8ac9 ./X-CUBE-AI/App/predictive_maintenance.o
+ .debug_str     0x00130de3     0x3282 ./X-CUBE-AI/App/app_x-cube-ai.o
+                             0x12dd43 (size before relaxing)
+ .debug_str     0x00134065     0x8ac9 ./X-CUBE-AI/App/predictive_maintenance.o
                               0x146f8 (size before relaxing)
- .debug_str     0x0013cb1d      0x193 ./X-CUBE-AI/App/predictive_maintenance_data.o
+ .debug_str     0x0013cb2e      0x193 ./X-CUBE-AI/App/predictive_maintenance_data.o
                                0xf090 (size before relaxing)
- .debug_str     0x0013ccb0       0x61 ./X-CUBE-AI/App/predictive_maintenance_data_params.o
+ .debug_str     0x0013ccc1       0x61 ./X-CUBE-AI/App/predictive_maintenance_data_params.o
                                0x7bbf (size before relaxing)
 
 .comment        0x00000000       0x86
