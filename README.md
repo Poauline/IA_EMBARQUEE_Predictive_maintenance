@@ -1,4 +1,36 @@
-# IA_EMBARQUEE_Predictive_maintenance
+Ce ReadMe se lit en 2 parties. Tout d'abord un bref manuel d'utilisation technique expliquant la procédure à suivre pour l'utilisation. Dans un second temps vous trouverez un rapport détailant la mise en place du réseau de neurone et avec des informations complémentaires.
+
+# Manuel de lancement et utilisation
+Pour utiliser ce projet il est nécessaire de récupérer l'intégralité du dossier GitHub.  
+
+## Géneration du réseau de neurone
+Si vous souhaitez regénerer un modèle IA il est nécessaire de lancer l'intégralité du Jupyter Notebook. Cependant la partie 2 et le premier modèle servent uniquement à montrer que l'équilibrage des classes est nécessaire.  
+Pour pouvoir récupérer la dernière version du modèle exporté il faut décommenter le paragraphe dans l'avant dernière cellule du document.  
+
+## Lancement du programme
+Ensuite, le lancement est effectué en 2 parties.
+
+### Lancement du programme embarqué
+Il est nécessaire de lancer le code embarqué en chargeant le projet (via le fichier .project) dans le dossier embedded_system_stm32. Il faut compiler le fichier via le symbole marteau.  
+Les fonctions d'intérêt évoquées dans le rapport se trouvent dans X-cube-AI/App/app_x-cube-ai.h  
+
+/!\ Il est nécessaire de vérifier que les lignes  MX_SDMMC1_SD_Init et MX_USB_OTG_FS_PCD_Init sont commentées dans les initialisations puisque ces fonctions sont bloquantes et empêchent le déroulement du programme en l'absence d'une carte SD.
+
+On lance ensuite le programme embarqué via Run (Flèche dans un rond vert). Il ne faut pas lancer le programme en mode Debug. En effet celui-ci utilise l'UART et la transmission de débogage va être reçue dans le programme Python ce qui amènera à des erreurs.
+
+  \
+### Envoi des données
+On lance ensuite le script Python en charge de l'envoi des données et de l'interprétation du retour nommé python_to_send_data. Pour cela il est nécessaire de charger le script Python et de l'ouvrir dans son dossier d'origine. En effet, les fichiers contenant les données sont dans un dossier parent réferencé en chemin relatif.   
+Si vous avez besoin de changer ce chemin d'accès vous pouvez le faire via la fonction main.  
+De plus, vous pouvez charger les données avec SMOTE nommées X_test.npy et Y_test.npy (9670 données) ou sans SMOTE (X.npy et Y.npy) mais équilibrées (360 données).
+
+Importez si besoin les librairies en haut de la page (numpy et serial).
+Changez ensuite le port COM en fonction de celui qui est utilisé pour la STM32 sur votre PC puis lancer le script. Vous devriez voir les résultats s'afficher si le programme embarqué est bien lancé.
+
+Il est à noter qu'une synchronisation a lieu au lancement du script python. Une fois l'envoi des données terminé, il est nécessaire de se resynchroniser pour réeffectuer un envoi.
+Cependant le programme embarqué reste bloqué en attente de données. Il faut donc le réinitialiser ce qui est possible via un appui sur le bouton noir en Hardware sur la carte à proximité de l'écran.
+
+# Rapport IA EMBARQUEE Predictive maintenance
  
 ## Introduction
 
@@ -154,11 +186,11 @@ Nous avons donc des données caractérisant les machines en fonctionnement et en
 Avant toute chose il est important de constater que la très grande majorité des données correspond à des machines fonctionnant correctement. Les pannes correspondent à uniquement 3,39% des données (339 données). Cela va donc compliquer l'entraînement du modèle.
 Nous pouvons observer la distribution des données sur le graphique ci-dessous.
 
-![alt text](image.png)
+![alt text](./images_for_readme/image.png)
 
 Nous récupérons également le nombre de pannes de chaque type que nous traçons sur le diagramme ci-dessous. Notons que les pannes non définies (RNF) ne sont pas comptabilisées comme des pannes dans le Dataset (sauf pour une donnée, probablement dûe à un Dataset imparfait).
 
-![alt text](image-1.png)
+![alt text](./images_for_readme/image-1.png)
 
 Il est important de garder en tête que nous souhaitons prédire un type de panne. Les pannes aléatoires sont par définition imprévisibles. Elles sont donc exclues du Dataset utilisé pour la conception du modèle.
 
@@ -192,7 +224,7 @@ Comme vu sur le graphique en première partie de ce document, notre Dataset n'es
 Conscients du problème, nous essayons tout de même d'entraîner un modèle avec ce Dataset non équilibré.
 Nous voyons que, que l'on utilise un modèle très performant ou alors très simple, nous arrivons rapidement à 97% d'Accuracy. On peut déjà se douter qu'il y a un problème puisque 97% est la proportion des données dans la classe No Failure.
 En traçant la matrice de confusion nous voyons bien que le modèle va constamment prédire la classe 0 puisqu'elle représente la grande majorité des cas.
-![alt text](image-2.png)
+![alt text](./images_for_readme/image-2.png)
 
 Nous avons donc un modèle d'apprentissage automatique qui n'apprend pas et donne quasi systèmatiquement la même classe de sortie.
 
@@ -218,14 +250,14 @@ Pour connaître la classe la plus probable nous prenons celle avec la plus grand
 #### Test du modèle
 Nous entraînons ce modèle avec les données préalablement équilibrées. En effectuant 40 époques d'entraînement nous atteignons une précision d'environ 92%. Nous pouvons ensuite vérifier que les résultats sont corrects grâce à la matrice de confusion ci-dessous.
 La diagonale correspond aux bonnes prédictions. Chaque classe contient Nous voyons bien que notre système se comporte très bien même si il y a des erreurs 
-![alt text](image-3.png)
+![alt text](./images_for_readme/image-3.png)
 
 Nous avons tout de même voulu nous assurer que la précision du modèle n'étaient pas liée à une mauvaise utilisation du SMOTE. Ainsi, dans ce cas le modèle pourrait prédire correctement avec les données provenant du SMOTE mais pas les vraies données (qui seraient alors parmis les quelques erreurs).
 Nous retraçons donc une matrice de confusion en équilibrant les données provenant de la machine. Nous utilisons pour cela RandomUserSample en mode not minority qui va réduire le nombre de données dans la classe 0.
 
 Nous obtenons alors la matrice ci-dessous (qui est basée sur uniquement 370 données. 
 
-![alt text](image-4.png)
+![alt text](./images_for_readme/image-4.png)
 
 Nous obtenons alors de bonnes prédictions ce qui fait que notre modèle est performant.
 
@@ -251,6 +283,8 @@ Notre modèle est maintenant importé. Nous pouvons gérer l'inférence dans le 
 
 ### L'interaction avec le réseau de neurone
 
+Le réseau de neurone est implémenté comme une fonction d'inférence qui utilise le réseau de neurone préalablement transmis pour génerer un résultat.  
+Il n'y a aucun apprentissage sur la carte.  
 La fonction permettant de lancer l'utilisation du réseau de neurone est MX_X_CUBE_AI_Process à mettre dans la boucle infinie de main.c.  
 
 De plus, dans la version de STM32CubeIDE utilisée pour ce projet il est nécessaire de commenter MX_SDMMC1_SD_Init et MX_USB_OTG_FS_PCD_Init dans les initialisations puisque ces fonctions sont bloquantes et empêchent le déroulement du programme en l'absence d'une carte SD (qui n'est pas nécessaire dans notre cas).
@@ -302,11 +336,6 @@ Ensuite, en essayant rapidement avec le Dataset d'entrée non-équilibré que no
 Une piste d'amélioation serait également d'analyser plus en détail le retour du modèle. Actuellement nous choisissons comme résultat la classe avec la plus grande probabilité mais analyser en détail les probabilités données pourrait nous donner un indicateur de confiance sur le résultat.   
 Par exemple si nous avons 41% de probabilité de panne TWF mais 40% de probabilité de No Failure, TWF sera choisi mais il serait important d'être critique sur ce résultat.
 
-## Manuel de lancement et utilisation
-Pour utiliser ce projet il est nécessaire de récupérer l'intégralité du dossier GitHub.  
-
-### Géneration du réseau de neurone
-Si vous souhaitez regénerer un modèle IA il est nécessaire de lancer l'intégralité du Jupyter Notebook. Cependant la partie 2 et le premier modèle servent uniquement à montrer que l'équilibrage des classes est nécessaire.  
-Pour pouvoir récupérer la dernière version du modèle exporté il faut décommenter le paragraphe dans l'avant dernière cellule du document.  
-
-Ensuite, le lancement 
+## Conclusion
+Ce TP nous a permis de mettre en place une solution d'intelligence artificielle sur un dispositif embarqué. Nous avons pu étudier toutes les étapes nécessaires, de la conception du réseau de neurone à l'inférence sur la carte en passant par l'envoi de données au réseau de neurone.  
+Nous avons donc maintenant les bases pour utiliser des réseaux de neurone en embarqué via une inférence ce qui est utile puisque de plus en plus d'entreprises souhaitent intégrer de l'intélligence articifielle à leur produits.
