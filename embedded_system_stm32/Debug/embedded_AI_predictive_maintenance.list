@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00000ee8  00000000  00000000  0002c4b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00035785  00000000  00000000  0002d398  2**0
+ 16 .debug_macro  0003578b  00000000  00000000  0002d398  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001ab5a  00000000  00000000  00062b1d  2**0
+ 17 .debug_line   0001ab5a  00000000  00000000  00062b23  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0013cd11  00000000  00000000  0007d677  2**0
+ 18 .debug_str    0013cd22  00000000  00000000  0007d67d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000086  00000000  00000000  001ba388  2**0
+ 19 .comment      00000086  00000000  00000000  001ba39f  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00005960  00000000  00000000  001ba410  2**2
+ 20 .debug_frame  00005960  00000000  00000000  001ba428  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000095  00000000  00000000  001bfd70  2**0
+ 21 .debug_line_str 00000095  00000000  00000000  001bfd88  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -16139,9 +16139,10 @@ int post_process(ai_i8 *data[])
  80062b2:	e06a      	b.n	800638a <post_process+0xee>
     }
 
-    uint8_t unique_label = 10;  // default value of label, class 10 does not exist so it is an error
- 80062b4:	230a      	movs	r3, #10
+    uint8_t unique_label = 0;  // default value of label, was -1 but is now 0 because we are with unsigned values
+ 80062b4:	2300      	movs	r3, #0
  80062b6:	f887 302a 	strb.w	r3, [r7, #42]	@ 0x2a
+    //We start at index 0 for the evaluation of the maximum probability
     uint8_t *output = data;
  80062ba:	687b      	ldr	r3, [r7, #4]
  80062bc:	62fb      	str	r3, [r7, #44]	@ 0x2c
