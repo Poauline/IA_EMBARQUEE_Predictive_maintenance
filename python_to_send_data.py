@@ -1,7 +1,7 @@
 import serial
 import numpy as np
 
-PORT = "COM12"
+PORT = "COM21"
 
 
 def synchronise_UART(serial_port):
@@ -64,6 +64,18 @@ def read_output_from_STM32(serial_port):
 
     return output[0]
 
+def analyse_output(output):
+    if output == 0:
+        return "No failure"
+    elif output == 1:
+        return "Failure TWF"
+    elif output == 2:
+        return "Failure HDF"
+    elif output == 3:
+        return "Failure PWF"
+    elif output == 4:
+        return "Failure OSF"
+
 
 
 def evaluate_model_on_STM32(iterations, serial_port):
@@ -86,9 +98,10 @@ def evaluate_model_on_STM32(iterations, serial_port):
         output = read_output_from_STM32(serial_port)
         if (output == Y_test[i]):
             accuracy += 1 / iterations
-            print("   Dans le mille !")
-        print(f"   Expected output: {Y_test[i]}")
-        print(f"   Received output: {output}")
+            print(f"   Output: {analyse_output(output)}")
+        else:
+            print(f"   Expected output: {Y_test[i]}")
+            print(f"   Received output: {output}")
         print(f"----------------------- Accuracy: {accuracy:.2f}\n")
         
     return accuracy
