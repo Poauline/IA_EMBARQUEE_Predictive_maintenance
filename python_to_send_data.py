@@ -58,7 +58,7 @@ def read_output_from_STM32(serial_port):
     if len(output) != 1:
         print(len(output))
         raise ValueError("Erreur de réception : 1 octet attendus")
-    
+
     #print("Vrai output :", output)
     #print("Octets reçus (hex) :", output.hex())  # Affiche en hexadécimal
 
@@ -100,16 +100,18 @@ def evaluate_model_on_STM32(iterations, serial_port):
             accuracy += 1 / iterations
             print(f"   Output: {analyse_output(output)}")
         else:
+            print("_______________ERROR_______________")
             print(f"   Expected output: {Y_test[i]}")
             print(f"   Received output: {output}")
         print(f"----------------------- Accuracy: {accuracy:.2f}\n")
-        
+
     return accuracy
 
 
 if __name__ == '__main__':
-    X_test = np.load("./saved_data/X_test.npy")
-    Y_test = np.load("./saved_data/Y_test.npy")
+
+    X_test = np.load("./saved_data/X_test.npy") # Changer par X.npy si on veut tester les données brutes (équilibrées)
+    Y_test = np.load("./saved_data/Y_test.npy") # Change par Y.npy si on veut tester les données brutes (équilibrées)
     print(X_test[7])
     print(X_test.shape)
     print(Y_test.shape)
@@ -121,4 +123,4 @@ if __name__ == '__main__':
         print("Synchronised")
 
         print("Evaluating model on STM32...")
-        error = evaluate_model_on_STM32(9670, ser)
+        error = evaluate_model_on_STM32(100, ser)

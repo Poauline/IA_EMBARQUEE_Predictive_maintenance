@@ -61,8 +61,8 @@ all: main-build
 main-build: embedded_AI_predictive_maintenance.elf secondary-outputs
 
 # Tool invocations
-embedded_AI_predictive_maintenance.elf embedded_AI_predictive_maintenance.map: $(OBJS) $(USER_OBJS) C:\Users\mathi\Desktop\ISMIN-2A\IA_embarquee\IA_EMBARQUEE_Predictive_maintenance\embedded_system_stm32\STM32L4R9AIIX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "embedded_AI_predictive_maintenance.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\mathi\Desktop\ISMIN-2A\IA_embarquee\IA_EMBARQUEE_Predictive_maintenance\embedded_system_stm32\STM32L4R9AIIX_FLASH.ld" --specs=nosys.specs -Wl,-Map="embedded_AI_predictive_maintenance.map" -Wl,--gc-sections -static -L../Middlewares/ST/AI/Lib --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+embedded_AI_predictive_maintenance.elf embedded_AI_predictive_maintenance.map: $(OBJS) $(USER_OBJS) D:\Document\ISMIN\ 2A\IA\ DATA\Embarquée\IA_embarquée\IA_EMBARQUEE_Predictive_maintenance\embedded_system_stm32\STM32L4R9AIIX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "embedded_AI_predictive_maintenance.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Document\ISMIN 2A\IA DATA\Embarquée\IA_embarquée\IA_EMBARQUEE_Predictive_maintenance\embedded_system_stm32\STM32L4R9AIIX_FLASH.ld" --specs=nosys.specs -Wl,-Map="embedded_AI_predictive_maintenance.map" -Wl,--gc-sections -static -L../Middlewares/ST/AI/Lib --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
