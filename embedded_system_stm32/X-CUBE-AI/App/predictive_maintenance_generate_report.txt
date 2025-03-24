@@ -1,0 +1,193 @@
+ST Edge AI Core v2.0.0-20049
+Created date          : 2025-03-18 00:33:44
+Parameters            : generate --target stm32l4 --name predictive_maintenance -m C:/Users/mathi/Desktop/ISMIN-2A/IA_embarquee/IA_EMBARQUEE_Predictive_maintenance/saved_models/improved_mlp_model.tflite --compression none --verbosity 1 --workspace C:/Users/mathi/AppData/Local/Temp/mxAI_workspace3317038570990012785095118517218451 --output C:/Users/mathi/.stm32cubemx/predictive_maintenance_output
+
+Exec/report summary (generate)
+-------------------------------------------------------------------------------------------------------------------------------------------------
+model file         :   C:\Users\mathi\Desktop\ISMIN-2A\IA_embarquee\IA_EMBARQUEE_Predictive_maintenance\saved_models\improved_mlp_model.tflite   
+type               :   tflite                                                                                                                    
+c_name             :   predictive_maintenance                                                                                                    
+compression        :   none                                                                                                                      
+options            :   allocate-inputs, allocate-outputs                                                                                         
+optimization       :   balanced                                                                                                                  
+target/series      :   stm32l4                                                                                                                   
+workspace dir      :   C:\Users\mathi\AppData\Local\Temp\mxAI_workspace3317038570990012785095118517218451                                        
+output dir         :   C:\Users\mathi\.stm32cubemx\predictive_maintenance_output                                                                 
+model_fmt          :   float                                                                                                                     
+model_name         :   improved_mlp_model                                                                                                        
+model_hash         :   0x6181c24f64c0ab2bfea0acb0170719d6                                                                                        
+params #           :   2,629 items (10.27 KiB)                                                                                                   
+-------------------------------------------------------------------------------------------------------------------------------------------------
+input 1/1          :   'serving_default_ke..tensor_270', f32(1x5), 20 Bytes, activations                                                         
+output 1/1         :   'nl_3', f32(1x5), 20 Bytes, activations                                                                                   
+macc               :   2,800                                                                                                                     
+weights (ro)       :   10,516 B (10.27 KiB) (1 segment)                                                                                          
+activations (rw)   :   384 B (384 B) (1 segment) *                                                                                               
+ram (total)        :   384 B (384 B) = 384 + 0 + 0                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------
+(*) 'input'/'output' buffers can be used from the activations buffer
+
+Model name - improved_mlp_model
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+m_id   layer (type,original)                            oshape        param/size       macc                     connected to   | c_size            c_macc            c_type                       
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+0      serving_default_ke..tensor_270 (Input, )         [b:1,c:5]                                                              | +1,536(+100.0%)   +448(+100.0%)     Dense_/Nonlinearity_[0, 1]   
+       improved_mlp_model..7_1_MatMul (Placeholder, )   [b:64,c:5]    320/1,280                                                | -1,280(-100.0%)                     
+       improved_mlp_model..VariableOp (Placeholder, )   [b:64]        64/256                                                   | -256(-100.0%)                       
+       gemm_0 (Gemm, FULLY_CONNECTED)                   [b:1,c:64]                      384   serving_default_ke..tensor_270   |                   -384(-100.0%)     
+                                                                                              improved_mlp_model..7_1_MatMul   | 
+                                                                                              improved_mlp_model..VariableOp   | 
+       nl_0_nl (Nonlinearity, FULLY_CONNECTED)          [b:1,c:64]                       64                           gemm_0   |                   -64(-100.0%)      
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+1      arith_constant1 (Placeholder, )                  [b:32,c:64]   2,048/8,192                                              | +128(+1.6%)       +2,112(+100.0%)   Dense_/Nonlinearity_[2, 3]   
+       improved_mlp_model..VariableOp (Placeholder, )   [b:32]        32/128                                                   | -128(-100.0%)                       
+       gemm_1 (Gemm, FULLY_CONNECTED)                   [b:1,c:32]                    2,080                          nl_0_nl   |                   -2,080(-100.0%)   
+                                                                                                             arith_constant1   | 
+                                                                                              improved_mlp_model..VariableOp   | 
+       nl_1_nl (Nonlinearity, FULLY_CONNECTED)          [b:1,c:32]                       32                           gemm_1   |                   -32(-100.0%)      
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+2      arith_constant (Placeholder, )                   [b:5,c:32]    160/640                                                  | +20(+3.1%)        +165(+100.0%)     Dense_[4]                    
+       improved_mlp_model..VariableOp (Placeholder, )   [b:5]         5/20                                                     | -20(-100.0%)                        
+       gemm_2 (Gemm, FULLY_CONNECTED)                   [b:1,c:5]                       165                          nl_1_nl   |                   -165(-100.0%)     
+                                                                                                              arith_constant   | 
+                                                                                              improved_mlp_model..VariableOp   | 
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+3      nl_3 (Nonlinearity, SOFTMAX)                     [b:1,c:5]                        75                           gemm_2   |                                     Nonlinearity_[o][5]          
+------ ------------------------------------------------ ------------- ------------- ------- -------------------------------- --- ----------------- ----------------- ---------------------------- 
+model/c-model: macc=2,800/2,800  weights=10,516/10,516  activations=--/384 io=--/0
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name            : improved_mlp_model
+c-name                : predictive_maintenance
+c-node #              : 6
+c-array #             : 13
+activations size      : 384 (1 segment)
+weights size          : 10516 (1 segment)
+macc                  : 2800
+inputs                : ['serving_default_keras_tensor_270_output']
+outputs               : ['nl_3_output']
+
+C-Arrays (13)
+------ ----------------------------------------- ----------- ------------------------- ------------- --------- 
+c_id   name (*_array)                            item/size   domain/mem-pool           c-type        comment   
+------ ----------------------------------------- ----------- ------------------------- ------------- --------- 
+0      gemm_0_bias                               64/256      weights/weights           const float             
+1      gemm_0_output                             64/256      activations/**default**   float                   
+2      gemm_0_weights                            320/1280    weights/weights           const float             
+3      gemm_1_bias                               32/128      weights/weights           const float             
+4      gemm_1_output                             32/128      activations/**default**   float                   
+5      gemm_1_weights                            2048/8192   weights/weights           const float             
+6      gemm_2_bias                               5/20        weights/weights           const float             
+7      gemm_2_output                             5/20        activations/**default**   float                   
+8      gemm_2_weights                            160/640     weights/weights           const float             
+9      nl_0_nl_output                            64/256      activations/**default**   float                   
+10     nl_1_nl_output                            32/128      activations/**default**   float                   
+11     nl_3_output                               5/20        activations/**default**   float         /output   
+12     serving_default_keras_tensor_270_output   5/20        activations/**default**   float         /input    
+------ ----------------------------------------- ----------- ------------------------- ------------- --------- 
+
+C-Layers (6)
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+c_id   name (*_layer)   id   layer_type      macc   rom    tensors                                      shape (array id)   
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+0      gemm_0           0    Dense           384    1536   I: serving_default_keras_tensor_270_output   f32(1x5) (12)      
+                                                           W: gemm_0_weights                            f32(64x5) (2)      
+                                                           W: gemm_0_bias                               f32(64) (0)        
+                                                           O: gemm_0_output                             f32(1x64) (1)      
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+1      nl_0_nl          0    Nonlinearity    64     0      I: gemm_0_output                             f32(1x64) (1)      
+                                                           O: nl_0_nl_output                            f32(1x64) (9)      
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+2      gemm_1           1    Dense           2080   8320   I: nl_0_nl_output                            f32(1x64) (9)      
+                                                           W: gemm_1_weights                            f32(32x64) (5)     
+                                                           W: gemm_1_bias                               f32(32) (3)        
+                                                           O: gemm_1_output                             f32(1x32) (4)      
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+3      nl_1_nl          1    Nonlinearity    32     0      I: gemm_1_output                             f32(1x32) (4)      
+                                                           O: nl_1_nl_output                            f32(1x32) (10)     
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+4      gemm_2           2    Dense           165    660    I: nl_1_nl_output                            f32(1x32) (10)     
+                                                           W: gemm_2_weights                            f32(5x32) (8)      
+                                                           W: gemm_2_bias                               f32(5) (6)         
+                                                           O: gemm_2_output                             f32(1x5) (7)       
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+5      nl_3             3    Nonlinearity    75     0      I: gemm_2_output                             f32(1x5) (7)       
+                                                           O: nl_3_output                               f32(1x5) (11)      
+------ ---------------- ---- --------------- ------ ------ -------------------------------------------- ------------------ 
+
+
+
+Number of operations per c-layer
+------- ------ ------------------------ ------- -------------- 
+c_id    m_id   name (type)                  #op           type 
+------- ------ ------------------------ ------- -------------- 
+0       0      gemm_0 (Dense)               384   smul_f32_f32 
+1       0      nl_0_nl (Nonlinearity)        64     op_f32_f32 
+2       1      gemm_1 (Dense)             2,080   smul_f32_f32 
+3       1      nl_1_nl (Nonlinearity)        32     op_f32_f32 
+4       2      gemm_2 (Dense)               165   smul_f32_f32 
+5       3      nl_3 (Nonlinearity)           75     op_f32_f32 
+------- ------ ------------------------ ------- -------------- 
+total                                     2,800 
+
+Number of operation types
+---------------- ------- ----------- 
+operation type         #           % 
+---------------- ------- ----------- 
+smul_f32_f32       2,629       93.9% 
+op_f32_f32           171        6.1% 
+
+Complexity report (model)
+------ ---------------------------------- ------------------------- ------------------------- -------- 
+m_id   name                               c_macc                    c_rom                     c_id     
+------ ---------------------------------- ------------------------- ------------------------- -------- 
+0      serving_default_keras_tensor_270   ||||              16.0%   |||               14.6%   [0, 1]   
+1      arith_constant1                    ||||||||||||||||  75.4%   ||||||||||||||||  79.1%   [2, 3]   
+2      arith_constant                     ||                 5.9%   ||                 6.3%   [4]      
+3      nl_3                               |                  2.7%   |                  0.0%   [5]      
+------ ---------------------------------- ------------------------- ------------------------- -------- 
+macc=2,800 weights=10,516 act=384 ram_io=0
+ 
+ Requested memory size by section - "stm32l4" target
+ ------------------------------- ------- -------- ------- ----- 
+ module                             text   rodata    data   bss 
+ ------------------------------- ------- -------- ------- ----- 
+ NetworkRuntime1000_CM4_GCC.a      7,012        0       0     0 
+ predictive_maintenance.o            538       48   1,752   148 
+ predictive_maintenance_data.o        48       16      88     0 
+ lib (toolchain)*                    614       24       0     0 
+ ------------------------------- ------- -------- ------- ----- 
+ RT total**                        8,212       88   1,840   148 
+ ------------------------------- ------- -------- ------- ----- 
+ weights                               0   10,520       0     0 
+ activations                           0        0       0   384 
+ io                                    0        0       0     0 
+ ------------------------------- ------- -------- ------- ----- 
+ TOTAL                             8,212   10,608   1,840   532 
+ ------------------------------- ------- -------- ------- ----- 
+ *  toolchain objects (libm/libgcc*)
+ ** RT AI runtime objects (kernels+infrastructure)
+  
+  Summary - "stm32l4" target
+  ---------------------------------------------------
+               FLASH (ro)      %*   RAM (rw)       % 
+  ---------------------------------------------------
+  RT total         10,140   49.1%      1,988   83.8% 
+  ---------------------------------------------------
+  TOTAL            20,660              2,372         
+  ---------------------------------------------------
+  *  rt/total
+
+
+Generated files (7)
+------------------------------------------------------------------------------------------------ 
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance_data_params.h   
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance_data_params.c   
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance_data.h          
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance_data.c          
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance_config.h        
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance.h               
+C:\Users\mathi\.stm32cubemx\predictive_maintenance_output\predictive_maintenance.c               
